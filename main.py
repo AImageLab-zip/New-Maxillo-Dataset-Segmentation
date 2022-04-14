@@ -150,7 +150,7 @@ if __name__ == '__main__':
     arg_parser.add_argument('--skip_dump', action='store_true', help="dump test data, default: false")
     arg_parser.add_argument('--test', action='store_true', help="set up test params, default: false")
     arg_parser.add_argument('--competitor', action='store_true', help='competitor trains on sparse, default: false')
-    arg_parser.add_argument('--additional_dataset', action='store_true', help='add also the syntetic dataset, default: false')
+    arg_parser.add_argument('--additional_dataset', action='store_true', help='add also the synthetic dataset, default: false')
     arg_parser.add_argument('--reload', action='store_true', help='reload experiment?, default: false')
     arg_parser.add_argument('--skip_primary', action='store_true', help='do not load primary train data, default: false')
 

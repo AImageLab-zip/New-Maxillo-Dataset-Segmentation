@@ -72,7 +72,7 @@ def create_dataset(splits_todo, is_competitor, saving_dir):
     with open(split_filepath) as f:
         folder_splits = json.load(f)
 
-    # for split in ['train', 'syntetic', 'val']:
+    # for split in ['train', 'synthetic', 'val']:
     if is_competitor:
         base = '/path/to/data/SPARSE'
     else:
@@ -84,7 +84,7 @@ def create_dataset(splits_todo, is_competitor, saving_dir):
 
         dataset = {'data': [], 'gt': []}
         for i, dir in tqdm(enumerate(dirs), total=len(dirs), desc=f"processing {split}"):
-            gt_dir = os.path.join(dir, 'syntetic.npy') if is_competitor else os.path.join(dir, 'gt_alpha.npy')
+            gt_dir = os.path.join(dir, 'synthetic.npy') if is_competitor else os.path.join(dir, 'gt_alpha.npy')
             data_dir = os.path.join(dir, 'data.npy')
 
             image = np.load(data_dir)
@@ -133,7 +133,7 @@ def create_dataset(splits_todo, is_competitor, saving_dir):
         print(f"split {split} completed. created {len(dataset['data'])} subvolumes")
 
 
-def create_syntetic():
+def create_synthetic():
     data_dir = "path/toyour/SPARSE/npy_files"
 
     for folder in os.listdir(data_dir):
@@ -181,15 +181,15 @@ def create_syntetic():
                 example[(Z+4).astype(int), Y.astype(int), X.astype(int)] = 1
 
         example = binary_fill_holes(example).astype(int)
-        np.save(os.path.join(data_dir, folder, 'syntetic.npy'), example)
+        np.save(os.path.join(data_dir, folder, 'synthetic.npy'), example)
 
 
 if __name__ == '__main__':
 
     # generate cicle expanded dataset - set your paths!
-    create_syntetic()
-    print("syntetic dataset has been created!")
-    # generate training and syntetic datasets (32x32x32) and the test set (resampling to 0.3 voxel space)
-    create_dataset(['train', 'syntetic', 'val', 'test'], is_competitor=True, saving_dir="saving_dir/sparse")
+    create_synthetic()
+    print("synthetic dataset has been created!")
+    # generate training and synthetic datasets (32x32x32) and the test set (resampling to 0.3 voxel space)
+    create_dataset(['train', 'synthetic', 'val', 'test'], is_competitor=True, saving_dir="saving_dir/sparse")
     create_dataset(['train', 'val', 'test'], is_competitor=False, saving_dir="saving_dir/dense")
     print("subvolumes for training have been created!")

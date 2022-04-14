@@ -25,7 +25,7 @@ Refer to the next sections for creating the circle expansion dataset and the sub
 To generate the patch dataset:
 ```python
 from utils import create_dataset
-create_dataset(['train', 'syntetic', 'val', 'test'], is_competitor=True, saving_dir="/savedir/sparse")
+create_dataset(['train', 'synthetic', 'val', 'test'], is_competitor=True, saving_dir="/savedir/sparse")
 create_dataset(['train', 'val', 'test'], is_competitor=False, saving_dir="/savedir/dense")
 ```
 
@@ -35,8 +35,8 @@ To create the alpha shape version of your patients refers to "alpha_shape.py" in
 ## Synthetic
 to create the cyrcle-expanded dataset:
 ```python
-from utils import create_syntetic
-create_syntetic()
+from utils import create_synthetic
+create_synthetic()
 ```
 
 

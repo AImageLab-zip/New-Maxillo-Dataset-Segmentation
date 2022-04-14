@@ -15,7 +15,7 @@ class Loader3D():
 
         self.subjects = {
             'train': [],
-            'syntetic': [],
+            'synthetic': [],
             'test': [],
             'val': []
         }
@@ -25,7 +25,7 @@ class Loader3D():
             if not skip_primary:
                 splits['train'] = 'sparse' if is_competitor else 'dense'
             if additional_dataset:
-                splits['syntetic'] = 'sparse'
+                splits['synthetic'] = 'sparse'
         splits['val'] = 'sparse' if is_competitor else 'dense'
         splits['test'] = 'dense'  # always!
         for split, dataset_type in splits.items():
@@ -35,7 +35,7 @@ class Loader3D():
             for p in tqdm(range(tmp_gt.shape[0])):
                 assert np.max(tmp_data[p]) <= 1  # data should be normalized by default
                 assert np.unique(tmp_gt[p]).size <= len(self.config['labels'])
-                label = tio.LabelMap(tensor=tmp_gt[p].astype(np.uint8)[None]) if split in ['train', 'syntetic'] else tmp_gt[p].astype(np.uint8)
+                label = tio.LabelMap(tensor=tmp_gt[p].astype(np.uint8)[None]) if split in ['train', 'synthetic'] else tmp_gt[p].astype(np.uint8)
                 self.subjects[split].append(tio.Subject(
                     data=tio.ScalarImage(tensor=tmp_data[p][None].astype(np.float)),
                     label=label,
@@ -45,10 +45,10 @@ class Loader3D():
         #     # PRE-TRAINING
         #     if additional_dataset:
         #         logging.info(f"using additional dataset")
-        #         tmp_gt = np.load(os.path.join(config['file_path'], 'sparse', 'syntetic', 'gt.npy'))
-        #         tmp_data = np.load(os.path.join(config['file_path'], 'sparse', 'syntetic', 'data.npy'))
+        #         tmp_gt = np.load(os.path.join(config['file_path'], 'sparse', 'synthetic', 'gt.npy'))
+        #         tmp_data = np.load(os.path.join(config['file_path'], 'sparse', 'synthetic', 'data.npy'))
         #         for p in tqdm(range(tmp_gt.shape[0])):
-        #             self.subjects['syntetic'].append(tio.Subject(
+        #             self.subjects['synthetic'].append(tio.Subject(
         #                 data=tio.ScalarImage(tensor=tmp_data[p][None].astype(np.float)),
         #                 label=tio.LabelMap(tensor=tmp_gt[p].astype(np.uint8)[None]),
         #         ))
@@ -87,7 +87,7 @@ class Loader3D():
         return tio.GridSampler(patch_size=(32, 32, 32), patch_overlap=0)
 
     def split_dataset(self, rank=0, world_size=1):
-        training_set = self.subjects['train'] + self.subjects['syntetic']
+        training_set = self.subjects['train'] + self.subjects['synthetic']
         random.shuffle(training_set)
         train = tio.SubjectsDataset(training_set[rank::world_size], transform=self.transforms) if self.do_train else None
 
